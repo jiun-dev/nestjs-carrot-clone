@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { dirname } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Users } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -13,9 +15,10 @@ import { UsersModule } from './users/users.module';
       username: 'root',
       password: 'test',
       database: 'test',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/entity/**/*.entity{.ts,.js}',],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([Users]),
     UsersModule,
   ],
   controllers: [AppController],
