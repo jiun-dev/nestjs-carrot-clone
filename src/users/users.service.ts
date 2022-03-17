@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,7 +17,7 @@ export class UsersService {
     const { email, password, name } = body;
     const isUserExist = await this.usersRepository.findOne({ email });
     if (isUserExist) {
-      return;
+      throw new HttpException('이미 존재하는 유저입니다,', 401);
     }
     const hashedPassword = await bcrypt.hash(password, 12);
     await this.usersRepository.save({
