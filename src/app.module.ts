@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dirname } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { Users } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
 
@@ -19,6 +20,7 @@ import { UsersModule } from './users/users.module';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([Users]),
+    AuthModule,
     UsersModule,
   ],
   controllers: [AppController],

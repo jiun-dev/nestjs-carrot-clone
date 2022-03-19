@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -12,7 +13,7 @@ export class UsersController {
     await this.usersService.postUsers(body);
   }
 
-  @UseGuards()
+  @UseGuards(LocalAuthGuard)
   @Post('/login')
   logIn() { }
 
