@@ -8,7 +8,7 @@ import { LocalStrategy } from "./local.strategy";
 
 @Module({
     imports: [
-        PassportModule.register({ session: true }),
+        PassportModule.register({ session: true }), // 토큰 기반 로그인 시 false
         TypeOrmModule.forFeature([Users]),
     ],
     providers: [AuthService, LocalStrategy, LocalSerializer],
