@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { Users } from './entity/user.entity';
 import { UsersModule } from './users/users.module';
+import { MarketModule } from './market/market.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forFeature([Users]),
     AuthModule,
     UsersModule,
+    MarketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
