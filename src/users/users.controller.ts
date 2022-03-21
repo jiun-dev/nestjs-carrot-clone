@@ -27,13 +27,10 @@ export class UsersController {
     return user;
   }
 
-
   @Post('login')
   async logIn(@Body() data: LoginRequestDto) {
     return this.authService.jwtLogin(data);
   }
-
-
 
   @Get(':id')
   findOne(@Param('id') id: string) {
