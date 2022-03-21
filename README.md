@@ -10,3 +10,8 @@
 
 ### POST /users/login
 - 로그인
+
+## 게시글 관련
+
+### POST /market
+- 게시글 작성
