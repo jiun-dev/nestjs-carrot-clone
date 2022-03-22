@@ -8,8 +8,8 @@ export class MarketController {
   constructor(private readonly marketService: MarketService) { }
 
   @Post()
-  create(@Body() createMarketDto: CreateMarketDto) {
-    return this.marketService.create(createMarketDto);
+  async create(@Body() createMarketDto: CreateMarketDto) {
+    await this.marketService.createMarket(createMarketDto);
   }
 
   @Get()

@@ -9,7 +9,7 @@ export class CreateMarketDto {
     @IsNotEmpty()
     content: string;
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
     price: string;
 }
