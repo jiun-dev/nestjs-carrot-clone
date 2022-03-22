@@ -19,8 +19,16 @@ export class MarketService {
     return this.marketRepository.createMarket(createMarketDto, user);
   }
 
-  findAll() {
-    return `This action returns all market`;
+  async getAllMarket(
+    user: Users
+  ): Promise<Market[]> {
+    const query = this.marketRepository.createQueryBuilder('market');
+
+    query.where('market.userId = :userId', { userId: user.id });
+
+    const markets = await query.getMany();
+
+    return markets;
   }
 
   findOne(id: number) {

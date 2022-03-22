@@ -19,8 +19,8 @@ export class MarketController {
   }
 
   @Get()
-  findAll() {
-    return this.marketService.findAll();
+  findAll(@User() user: Users) {
+    return this.marketService.getAllMarket(user);
   }
 
   @Get(':id')
