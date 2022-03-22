@@ -9,7 +9,7 @@ export class MarketController {
 
   @Post()
   async create(@Body() createMarketDto: CreateMarketDto) {
-    await this.marketService.createMarket(createMarketDto);
+    return this.marketService.createMarket(createMarketDto);
   }
 
   @Get()
