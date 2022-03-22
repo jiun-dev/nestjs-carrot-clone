@@ -3,6 +3,8 @@ import { MarketService } from './market.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { User } from 'src/common/decorator/user.decorator';
+import { Users } from 'src/entity/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('market')
@@ -10,8 +12,10 @@ export class MarketController {
   constructor(private readonly marketService: MarketService) { }
 
   @Post()
-  async create(@Body() createMarketDto: CreateMarketDto) {
-    return this.marketService.createMarket(createMarketDto);
+  async createMarket(
+    @Body() createMarketDto: CreateMarketDto,
+    @User() user: Users) {
+    return this.marketService.createMarket(createMarketDto, user);
   }
 
   @Get()

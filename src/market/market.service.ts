@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Market } from 'src/entity/market.entity';
+import { Users } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
+import { MarketRepository } from './market.repository';
 
 @Injectable()
 export class MarketService {
   constructor(
-    @InjectRepository(Market)
-    private marketRepository: Repository<Market>,
+    @InjectRepository(MarketRepository)
+    private marketRepository: MarketRepository,
   ) { }
 
-  async createMarket(createMarketDto: CreateMarketDto) {
-    const { title, content, price } = createMarketDto;
+  async createMarket(createMarketDto: CreateMarketDto, user: Users) {
 
-    const market = this.marketRepository.create({
-      title, content, price
-    });
-    await this.marketRepository.save(market);
-
-    return market;
+    return this.marketRepository.createMarket(createMarketDto, user);
   }
 
   findAll() {
