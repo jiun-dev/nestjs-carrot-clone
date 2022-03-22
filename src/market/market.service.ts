@@ -14,11 +14,13 @@ export class MarketService {
 
   async createMarket(createMarketDto: CreateMarketDto) {
     const { title, content, price } = createMarketDto;
-    await this.marketRepository.save({
-      title,
-      content,
-      price,
+
+    const market = this.marketRepository.create({
+      title, content, price
     });
+    await this.marketRepository.save(market);
+
+    return market;
   }
 
   findAll() {
