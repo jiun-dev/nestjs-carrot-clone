@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Market } from "./market.entity";
+import * as bcrypt from 'bcrypt'
 @Entity()
 export class Users {
     @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
@@ -13,4 +14,13 @@ export class Users {
 
     @Column('varchar', { name: 'password', length: 100, select: false })
     password: string;
+
+    @OneToMany(type => Market, market => market.user, { eager: true })
+    markets: Market[];
+
+    async validatePassword(password: string): Promise<boolean> {
+        let isValid = await bcrypt.compare(password, this.password);
+        return isValid;
+    }
+
 }

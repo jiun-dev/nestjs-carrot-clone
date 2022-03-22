@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Users } from "./user.entity";
 
 @Entity()
 export class Market {
@@ -14,5 +15,7 @@ export class Market {
     @Column('varchar', { name: 'price', length: 100, select: false })
     price: string;
 
+    @ManyToOne(type => Users, user => user.markets, { eager: false })
+    user: Users;
 }
 
