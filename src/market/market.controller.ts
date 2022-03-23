@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { MarketService } from './market.service';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
@@ -23,18 +23,9 @@ export class MarketController {
     return this.marketService.getAllMarket(user);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.marketService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMarketDto: UpdateMarketDto) {
-    return this.marketService.update(+id, updateMarketDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.marketService.remove(+id);
+  deleteMarket(@Param('id', ParseIntPipe) id, @User() user: Users): Promise<void> {
+    return this.marketService.deleteMarket(id, user);
   }
+
 }
