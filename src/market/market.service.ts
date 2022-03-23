@@ -1,41 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/common/decorator/user.decorator';
 import { Market } from 'src/entity/market.entity';
+import { Users } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateMarketDto } from './dto/create-market.dto';
 import { UpdateMarketDto } from './dto/update-market.dto';
+import { MarketRepository } from './market.repository';
 
 @Injectable()
 export class MarketService {
   constructor(
-    @InjectRepository(Market)
-    private marketRepository: Repository<Market>,
+    @InjectRepository(MarketRepository)
+    private marketRepository: MarketRepository,
   ) { }
 
-  async createMarket(createMarketDto: CreateMarketDto) {
-    const { title, content, price } = createMarketDto;
+  async createMarket(createMarketDto: CreateMarketDto, user: Users) {
 
-    const market = this.marketRepository.create({
-      title, content, price
-    });
-    await this.marketRepository.save(market);
-
-    return market;
+    return this.marketRepository.createMarket(createMarketDto, user);
   }
 
-  findAll() {
-    return `This action returns all market`;
+  async getAllMarket(
+    @User() user: Users
+  ): Promise<Market[]> {
+    const query = this.marketRepository.createQueryBuilder('market');
+
+    query.where('market.userId = :userId', { userId: user.id });
+
+    const markets = await query.getMany();
+
+    return markets;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} market`;
-  }
+  async deleteMarket(id: number, @User() user: Users): Promise<void> {
+    const result = await this.marketRepository.delete({ id, user });
 
-  update(id: number, updateMarketDto: UpdateMarketDto) {
-    return `This action updates a #${id} market`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} market`;
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
+    }
   }
 }
