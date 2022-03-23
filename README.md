@@ -15,3 +15,6 @@
 
 ### POST /market
 - 게시글 작성
+
+### GET /market
+- 모든 게시글 가져오기
